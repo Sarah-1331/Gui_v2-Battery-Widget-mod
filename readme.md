@@ -18,18 +18,19 @@ Generate or obtain the patch file and apply it to your own copy of `BatteryWidge
 SSH into your Venus OS device and run the following commands:
 
 # Download the installer
-wget https://raw.githubusercontent.com/Sarah-1331/guimods/main/install_widgets.sh -O /data/install_widgets.sh
+wget https://raw.githubusercontent.com/Sarah-1331/Gui_v2-Battery-Widget-mod/blob/main/install.sh -O /data/install_widgets.sh
 
 # Make it executable
-chmod +x /data/install_widgets.sh
+chmod +x /data/install.sh
 
 # Run the installer
-bash /data/install_widgets.sh
+bash /data/install.sh
 🔹 Restore the Originals 🛠️
 If you ever want to revert to the original system files:
 
 # Download the restore script
-wget https://raw.githubusercontent.com/Sarah-1331/guimods/main/remove.sh -O /data/remove.sh
+
+wget https://raw.githubusercontent.com/Sarah-1331/Gui_v2-Battery-Widget-mod/blob/main/remove.sh -O /data/remove.sh
 
 # Run it to restore backups
 bash /data/remove.sh
