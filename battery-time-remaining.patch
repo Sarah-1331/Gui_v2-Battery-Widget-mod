@@ -1,5 +1,5 @@
---- BatteryWidget.qml	2026-07-11 12:00:00
-+++ BatteryWidget.qml	2026-07-11 12:30:00
+--- BatteryWidget.qml	
++++ BatteryWidget.qml	
 @@ -40,7 +40,8 @@
  
  	readonly property var batteryData: Global.system.battery
