@@ -1,7 +1,10 @@
 #!/bin/bash
-
-WIDGET_DIR="/opt/victronenergy/gui-v2/Victron/VenusOS/components/widgets"
-FILES=("BatteryWidget.qml" "BatteryWidget.qml")
+if [ -d /data/apps/overlay-fs/data/gui-v2/upper ]; then
+    WIDGET_DIR="/data/apps/overlay-fs/data/gui-v2/upper/Victron/VenusOS/components/widgets"
+else
+    WIDGET_DIR="/opt/victronenergy/gui-v2/Victron/VenusOS/components/widgets"
+fi
+FILES=("BatteryWidget.qml")
 
 for FILE in "${FILES[@]}"; do
     BACKUP=$(ls -t "$WIDGET_DIR/$FILE.bak"* 2>/dev/null | head -n1)
