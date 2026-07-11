@@ -88,8 +88,3 @@ The restore script will:
 - Only `BatteryWidget.qml` is modified.
 - No other Venus OS GUI files are changed.
 - The patch method allows the modification to be reviewed before applying.
-
-restore.sh
-
-
-because it matches what it actually does and avoids confusion with "uninstall/delete". Your `venus_custom_s
