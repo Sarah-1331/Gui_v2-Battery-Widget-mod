@@ -1,51 +1,60 @@
---- BatteryWidget.qml	
-+++ BatteryWidget.qml	
+--- BatteryWidget.qml
++++ BatteryWidget.qml
 @@ -40,7 +40,8 @@
- 
+
  	readonly property var batteryData: Global.system.battery
-+	readonly property real batterySoc: batteryData.stateOfCharge || 0
- 
++	readonly property real batteryRemainingAh: batteryCapacity.value || 0
+
  	readonly property int _normalizedStateOfCharge: Math.round(batteryData.stateOfCharge || 0)
  	readonly property bool _animationReady: animationEnabled && !isNaN(batteryData.stateOfCharge)
 
 
-@@ -75,6 +76,11 @@
+@@ -75,6 +76,16 @@
  	VeQuickItem {
  		id: remoteGeneratorSelected
- 
+
  		uid: Global.system.veBus.serviceUid ? Global.system.veBus.serviceUid + "/Ac/State/RemoteGeneratorSelected" : ""
  	}
-+
+
 +	VeQuickItem {
 +		id: batteryCapacity
 +		uid: "dbus/com.victronenergy.battery.socketcan_vecan0/Capacity"
 +	}
++
++	VeQuickItem {
++		id: batteryInstalledCapacity
++		uid: "dbus/com.victronenergy.battery.socketcan_vecan0/InstalledCapacity"
++	}
 
 
-@@ -220,9 +226,42 @@
+@@ -220,9 +226,52 @@
  			Label {
 -				text: Global.system.battery.timeToGo == 0 ? "" : Utils.secondsToString(Global.system.battery.timeToGo)
 -				visible: Global.system.battery.timeToGo
 -				color: Theme.color_font_primary
 +				text: {
-+					const capAh = batteryCapacity.value;
-+					const reserveSoc = 20.0;
++					const remainingAh = batteryCapacity.value;
++					const fullAh = batteryInstalledCapacity.value;
 +					const current = batteryData.current;
-+					const soc = batteryData.stateOfCharge;
++
++					const reserveAh = fullAh * 0.20; // calculate down to 20%
++					const warningAh = fullAh * 0.25; // warning at 25%
 +
 +					// Charging
 +					if (current > 0.1) {
-+						const remainingAh = capAh * (100 - soc) / 100;
-+						const hours = remainingAh / current;
++						const chargeAh = fullAh - remainingAh;
++						const hours = chargeAh / current;
++
 +						return "Time to full " + Utils.secondsToString(hours * 3600);
 +					}
 +
 +					// Discharging
 +					if (current < -0.1) {
-+						if (soc <= 20)
++
++						if (remainingAh <= warningAh)
 +							return "WARNING";
 +
-+						const usableAh = capAh * (soc - reserveSoc) / 100;
++						const usableAh = remainingAh - reserveAh;
 +						const hours = usableAh / Math.abs(current);
 +
 +						return "Remaining " + Utils.secondsToString(hours * 3600);
@@ -55,9 +64,13 @@
 +				}
 +
 +				visible: true
-+				color: batterySoc <= 30 ? "red" :
-+				       batterySoc <= 35 ? "orange" :
-+				       Theme.color_font_primary
++
++				color: batteryCapacity.value <= batteryInstalledCapacity.value * 0.30
++				       ? "red"
++				       : batteryCapacity.value <= batteryInstalledCapacity.value * 0.35
++				         ? "orange"
++				         : Theme.color_font_primary
++
  				width: parent.width
  				elide: Text.ElideRight
  				font.pixelSize: Theme.font_overviewPage_battery_timeToGo_pixelSize
