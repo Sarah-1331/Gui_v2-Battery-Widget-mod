@@ -17,29 +17,11 @@ This patch adds a native battery time estimator to the GUI v2 battery widget.
 
 SSH into your Venus OS device.
 
-### Download the installer
-
-```bash
 wget https://raw.githubusercontent.com/Sarah-1331/Gui_v2-Battery-Widget-mod/main/install.sh -O /data/install.sh
-```
 
-### Download the patch file
-
-```bash
-wget https://raw.githubusercontent.com/Sarah-1331/Gui_v2-Battery-Widget-mod/main/battery-time-remaining.patch -O /data/battery-time-remaining.patch
-```
-
-### Make the installer executable
-
-```bash
 chmod +x /data/install.sh
-```
 
-### Run the installer
-
-```bash
 bash /data/install.sh
-```
 
 The installer will:
 
